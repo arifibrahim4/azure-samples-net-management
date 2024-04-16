@@ -17,6 +17,7 @@ using Azure.ResourceManager.Communication.Models;
 using Azure.ResourceManager.Compute;
 using Azure.ResourceManager.EventHubs;
 using Azure.ResourceManager.KeyVault;
+using Azure.ResourceManager.EventGrid;
 
 namespace Samples.Utilities
 {
@@ -349,6 +350,25 @@ namespace Samples.Utilities
                     .Append(networkProfile)
                     .Append(msi)
                     .ToString());
+        }
+
+        public static void PrintEventGridSubscriptionData(EventGridSubscriptionData subscriptionData)
+        {
+            StringBuilder info = new StringBuilder();
+            info.Append("EventGridSubscriptionData")
+                .Append("\n\t Id: ").Append(subscriptionData.Id)
+                .Append("\n\t Name: ").Append(subscriptionData.Name)
+                .Append("\n\t Destination: ").Append(subscriptionData.Destination.ToString());
+
+            string filters = "None";
+            if (subscriptionData.Filter.IncludedEventTypes.Count > 0)
+            {
+                filters = string.Join(", \n\t\t", subscriptionData.Filter.IncludedEventTypes.ToArray());
+            }
+            info.Append("\n\t Filters:\n\t\t" + filters);
+
+           Log(info.ToString());
+
         }
 
         public static void PrintAppConfiguration(AppConfigurationStoreResource configurationStore)
